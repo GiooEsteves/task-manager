@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
-const User = ("../models/User.js");
+const User = require("../models/User.js");
 
-// Middleware to protect routes
+// Middleware para protejer as rotas
 const protect = async (req, res, next) => {
     try{
         let token = req.headers.authorization;
@@ -18,7 +18,7 @@ const protect = async (req, res, next) => {
     }
 };
 
-// middleware for admin only access
+// Middleware para acesso de admin
 const adminOnly = (req, res, next) => {
     if(req.user && req.user.role === 'admin'){
         next();
