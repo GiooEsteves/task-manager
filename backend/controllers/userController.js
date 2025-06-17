@@ -29,7 +29,7 @@ const getUsers = async (req, res) => {
     }
 };
 
-// @desc 
+// @desc get user by id
 // @route GET /api/users/:id
 // @acess Private
 const getUserById = async (req, res) => {
