@@ -1,6 +1,0 @@
-- Vou desenvolver uma API de gerenciamento de tarefas, ela terá uma interface responsiva onde o usuário pode administrar tarefas, acessar um painel de controle e navegar facilmente. 
-
-- Dashboard para acesso rápido, CRUD de tarefas, autenticação de usuário, responsividade e feedback visual.
-
-- Node, Express, Mongoose, JWT e Middleware. Banco de dados MongoDB.
- 
