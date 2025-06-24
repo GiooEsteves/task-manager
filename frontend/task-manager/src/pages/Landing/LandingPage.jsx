@@ -1,19 +1,54 @@
-import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link, Navigate, Outlet } from 'react-router-dom';
+import { UserContext } from '../../context/userContext';
 import Footer from '../../components/layouts/Footer';
 import { PlusCircle, Pencil, Search, Trash2, BarChart2 } from 'lucide-react';
 
 const LandingPage = () => {
+  const { user, loading } = useContext(UserContext);
+
+  if (loading) return <Outlet />;
+
+  if (user) {
+    return user.role === 'admin' ? (
+      <Navigate to="/admin/dashboard" />
+    ) : (
+      <Navigate to="/user/dashboard" />
+    );
+  }
+
   const features = [
-    { title: 'Criar Tarefas', desc: 'Adicione novas tarefas rapidamente.', icon: <PlusCircle size={32} className="mx-auto text-red-700" /> },
-    { title: 'Editar Tarefas', desc: 'Modifique os detalhes das tarefas já existentes com facilidade e agilidade.', icon: <Pencil size={32} className="mx-auto text-red-700" /> },
-    { title: 'Visualizar Tarefas', desc: 'Tenha uma visão clara do ciclo de vida de cada tarefa através de dashboards.', icon: <Search size={32} className="mx-auto text-red-700" /> },
-    { title: 'Excluir Tarefas', desc: 'Remova tarefas que não são mais necessárias com simplicidade.', icon: <Trash2 size={32} className="mx-auto text-red-700" /> },
-    { title: 'Dashboard', desc: 'Visualize estatísticas e métricas das tarefas em um painel de controle intuitivo.', icon: <BarChart2 size={32} className="mx-auto text-red-700" /> },
+    {
+      title: 'Criar Tarefas',
+      desc: 'Adicione novas tarefas rapidamente com controle intuitivo e campos personalizados.',
+      icon: <PlusCircle size={32} className="mx-auto text-red-700" />,
+    },
+    {
+      title: 'Editar Tarefas',
+      desc: 'Modifique os detalhes das tarefas existentes com facilidade e agilidade.',
+      icon: <Pencil size={32} className="mx-auto text-red-700" />,
+    },
+    {
+      title: 'Visualizar Tarefas',
+      desc: 'Tenha uma visão clara do ciclo de vida de cada tarefa através de dashboards.',
+      icon: <Search size={32} className="mx-auto text-red-700" />,
+    },
+    {
+      title: 'Excluir Tarefas',
+      desc: 'Remova tarefas que não são mais necessárias com segurança e simplicidade.',
+      icon: <Trash2 size={32} className="mx-auto text-red-700" />,
+    },
+    {
+      title: 'Dashboard',
+      desc: 'Visualize estatísticas e métricas das tarefas em um painel de controle intuitivo.',
+      icon: <BarChart2 size={32} className="mx-auto text-red-700" />,
+    },
   ];
 
   return (
     <div className="w-screen min-h-screen bg-white overflow-x-hidden">
 
+      {/* HERO SECTION */}
       <section className="w-full py-20 px-4 bg-gradient-to-br from-[#fff5f5] via-white to-[#fff5f5]">
         <div className="max-w-5xl mx-auto text-center">
           <h1 className="text-5xl font-extrabold text-black mb-6 leading-tight">
@@ -30,9 +65,10 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* FEATURES SECTION */}
       <section className="w-full max-w-5xl mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-2">Funcionalidades Principais</h2>
-        <p className="text-center text-gray-700 mb-8 text-lg">
+        <h2 className="text-3xl font-bold text-center mb-2">Funcionalidades Principais</h2>
+        <p className="text-center text-gray-700 mb-8 text-sm">
           Todas as ferramentas que você precisa para gerenciar suas tarefas de forma eficiente e profissional.
         </p>
 

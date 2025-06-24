@@ -19,7 +19,7 @@ const App = () => {
       <div>
         <Router>
           <Routes>
-            {/* LANDING ROUTE */}
+            {/* LANDING/DEFAULT ROUTE */}
             <Route path="/" element={<LandingPage/>}/>
 
             {/* AUTH ROUTES */}

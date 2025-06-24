@@ -1,8 +1,11 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../../components/layouts/AuthLayout';
 import Input from '../../components/inputs/Input';
 import { validateEmail } from '../../utils/helper';
+import axiosInstance from '../../utils/axiosInstance';
+import { API_PATHS } from '../../utils/apiPaths';
+import { UserContext } from '../../context/userContext';
 
 const SignUp = () => {
   const [fullName, setFullName] = useState('');
@@ -10,6 +13,8 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [adminInviteToken, setAdminInviteToken] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const { updateUser } = useContext(UserContext);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -29,8 +34,36 @@ const SignUp = () => {
       return;
     }
 
-    // lógica de envio para o backend
     setError('');
+
+    // lógica de envio para o backend
+    try{
+       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name: fullName,
+        email,
+        password,
+        adminInviteToken
+       });
+
+       const { token, role } = response.data;
+
+       if(token){
+        localStorage.setItem("token", token);
+        updateUser(response.data);
+
+        if(role === "admin"){
+          navigate("/admin/dashboard");
+        }else{
+          navigate("/user/dashboard");
+        }
+       }
+    }catch(error){
+      if(error.response && error.response.data.message){
+        setError(error.response.data.message);
+      }else{
+        setError("Algo deu errado. Tente novamente")
+      }
+    }
   };
 
   return (
@@ -66,7 +99,7 @@ const SignUp = () => {
         <Input
           value={adminInviteToken}
           onChange={({ target }) => setAdminInviteToken(target.value)}
-          label='Convite de administrador (opcional)'
+          label='Código de administrador (opcional)'
           placeholder='Digite o código'
           type='text'
         />

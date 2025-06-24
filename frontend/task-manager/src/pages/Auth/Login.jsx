@@ -28,7 +28,7 @@ const Login = () => {
     
     setError("");
 
-     // lógica de envio para o backend
+    // lógica de envio para o backend
     try{
       const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
         email,
